@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Rock Paper Scissors</title>
+  </head>
+  <body>
+    <header>
+      <h2>Rock Paper Scissors</h2>
+      <h3>Choose item</h3>
+    </header>
+    <div id ="content">
+      <div class='choices' id='choices'>
+        <span id='player_choice'>Your choices is: </span>
+        <span id="computer_choice">Computer choice is: </span>
+      </div>
+      <ul>
+        <li id="rock"><i class="fa-regular fa-hand-back-fist"></i></li>
+        <li id = 'paper'><i class="fa-regular fa-hand"></i></li>
+        <li id='scissors'><i class="fa-regular fa-hand-scissors"></i></li>
+      </ul>
+      <!--results-->
+      <div class="results">
+        <!--client-->
+        <div class="client">
+          <h4>Your scores:</h4>
+          <h4 id="client_scores">0</h4>
+
+        </div>
+        <!--computer-->
+        <div class="computer">
+          <h4>Computer scores:</h4>
+          <h4 id="computer_scores">0</h4>
+
+        </div>
+
+      </div>
+      <!--/results-->
+      <button id='reset'>Reset</button>
+
+      <!--popup-->
+      <div id="popup" class="pop">
+        <span id="pop_text">Some text</span>
+        <div class='close'>&times;</div>
+      </div>
+      <!--/popup-->
+      </div>
+      <div id="overlay"></div>
+  <script src="script.js"></script>
+  </body>
+</html>
