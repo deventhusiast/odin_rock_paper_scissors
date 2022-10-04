@@ -1,10 +1,11 @@
 let btns = [...document.querySelectorAll('li')]
-let round = 0
 let playerScores= document.querySelector('#client_scores')
 let scores_computer = document.querySelector('#computer_scores')
 let overlay = document.querySelector('#overlay')
-let player = Number(playerScores.innerHTML)
-let computer = Number(scores_computer.innerHTML)
+let player = Number(playerScores.innerText)
+let computer = Number(scores_computer.innerText)
+let popup = document.querySelector('.pop')
+
 
 const getComputerChoice = () =>{
     let result = Math.floor(Math.random() * btns.length)
@@ -13,40 +14,40 @@ const getComputerChoice = () =>{
 }
 const showPlayerChoice =(choice='') =>{
   let player_choice = document.querySelector('#player_choice')
-  player_choice.innerHTML = `Your choice is: ${choice}`
+  player_choice.innerText = `Your choice is: ${choice}`
 }
 const showComputerChoice = (choice='') =>{
   let computer_choice = document.querySelector('#computer_choice')
-  computer_choice.innerHTML = `Computer choice is: ${choice}`
+  computer_choice.innerText = `Computer choice is: ${choice}`
 }
-const showPopup = (front,value='') =>{
+const closeButton = () =>{
+  overlay.style.opacity = 0
+  popup.classList.remove('active')
+}
+
+const showPopup = (front,emoji=null) =>{
   let popup_text = document.querySelector('#pop_text')
-  popup_text.innerHTML = `${front}${value}`
-  let popup = document.querySelector('.pop')
+  popup_text.innerText = `${front} ${emoji}`
   let close = document.querySelector('.close')
   overlay.style.opacity = 1
   popup.classList.add('active')
-  close.addEventListener('click',()=>{
-    overlay.style.opacity = 0
-    popup.classList.remove('active')
-  })
+  close.addEventListener('click',closeButton)
 }
 const reset = () =>{
-  playerScores.innerHTML = "0"
-  scores_computer.innerHTML = "0"
+  playerScores.innerText = "0"
+  scores_computer.innerText = "0"
   showPlayerChoice()
   showComputerChoice()
-  round = 0
   player =0
   computer =0
 }
 let restart = document.querySelector('#reset').addEventListener('click',reset)
 const checkResult = (player,computer)=>{
   if (player > computer){
-    showPopup(`You are the winer and your scores are:  `,player.toString())
+    showPopup(`Congratulations you are the winer `,String.fromCodePoint(0x1f60a))
   }
   else if(computer> player){
-    showPopup(`Computer is the winer and the scores are: `,computer.toString())
+    showPopup(`Better luck next time `,String.fromCodePoint(0x1f61e))
   }
   else if((player === computer) &&(player>0 && computer>0)){
     showPopup(`The result is tie!`)
@@ -57,7 +58,6 @@ const checkResult = (player,computer)=>{
 const game= (e)=>{
   let playerSelection
   let computerSelection
-  round++
   if(e !== undefined){
     playerSelection = e.currentTarget.id
     showPlayerChoice(playerSelection)
@@ -66,82 +66,55 @@ const game= (e)=>{
     playRound(playerSelection,computerSelection)
     }
   };
-  items = [...document.querySelectorAll('li')].forEach((item) => {
+  let items = [...document.querySelectorAll('li')].forEach((item) => {
     item.addEventListener('click',game)
   });
 
 
 const playRound =(playerSelection,computerSelection)=>{
-  console.log(round);
-  if(round===6){
+  if(player === 5 || computer === 5){
     checkResult(player,computer)
   }
-else if(round<6){
+  if(playerSelection === computerSelection){
+    player+=0
+    computer+=0
+  }
   if(playerSelection === 'rock'){
-    switch(computerSelection){
-      case "rock":
-        player+=0
-        computer+=0
-        playerScores.innerHTML = player.toString()
-        scores_computer.innerHTML=computer.toString()
-        break;
-      case "paper":
-        player+=0
-        computer+=1
-        playerScores.innerHTML = player.toString()
-        scores_computer.innerHTML=computer.toString()
-        break;
-      case "scissors":
-        player+=1
-        computer+=0;
-        playerScores.innerHTML = player.toString()
-        scores_computer.innerHTML=computer.toString()
-        break;
+      switch(computerSelection){
+        case "paper":
+          player+=0
+          computer+=1
+          break;
+        case "scissors":
+          player+=1
+          computer+=0;
+          break;
+        }
+    }
+    if(playerSelection === "paper"){
+      switch(computerSelection){
+        case "scissors":
+          player+=0
+          computer+=1
+          break;
+        case "rock":
+          player+=1
+          computer+=0
+          break;
       }
-  }
-  else if(playerSelection === "paper"){
-    switch(computerSelection){
-      case "paper":
-        player+=0
-        computer+=0
-        playerScores.innerHTML = player.toString()
-        scores_computer.innerHTML=computer.toString()
-        break;
-      case "scissors":
-        player+=0
-        computer+=1
-        playerScores.innerHTML = player.toString()
-        scores_computer.innerHTML=computer.toString()
-        break;
-      case "rock":
-        player+=1
-        computer+=0
-        playerScores.innerHTML = player.toString()
-        scores_computer.innerHTML=computer.toString()
-        break;
     }
-  }
-  else if(playerSelection === 'scissors'){
-    switch(computerSelection){
-      case "scissors":
-        player+=0
-        computer+=0
-        playerScores.innerHTML = player.toString()
-        scores_computer.innerHTML=computer.toString()
-        break;
-      case 'rock':
-        player+=0
-        computer+=1
-        playerScores.innerHTML = player.toString()
-        scores_computer.innerHTML=computer.toString()
-        break;
-      case "paper":
-        player+=1
-        computer+=0
-        playerScores.innerHTML = player.toString()
-        scores_computer.innerHTML=computer.toString()
-        break;
+    if(playerSelection === 'scissors'){
+      switch(computerSelection){
+        case 'rock':
+          player+=0
+          computer+=1
+          break;
+        case "paper":
+          player+=1
+          computer+=0
+          break;
+      }
     }
-  }
-}
+    playerScores.innerText = player.toString()
+    scores_computer.innerText=computer.toString()
 }
